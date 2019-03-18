@@ -6,6 +6,7 @@ interface SidebarProps {
   playlists: PlaylistMap;
   selectedView: string;
   navigate: (key: string) => void;
+  createPlaylist: () => void;
 }
 
 export const Sidebar: React.FunctionComponent<SidebarProps> = props => {
@@ -24,7 +25,28 @@ export const Sidebar: React.FunctionComponent<SidebarProps> = props => {
     };
     playlistLinks.push(navLink);
   }
-  const defaultGroup: INavLinkGroup = { links: [] };
+  playlistLinks.push({
+    key: "-add-playlist",
+    name: "+ Create playlist", // can this have an icon?
+    url: "#",
+    onClick: (e: any, _: any) => {
+      e.preventDefault();
+      props.createPlaylist();
+    }
+  });
+  const defaultGroup: INavLinkGroup = {
+    links: [
+      {
+        key: "default",
+        name: "All tracks",
+        url: "/",
+        onClick: (e: any, _: any) => {
+          e.preventDefault();
+          props.navigate("default");
+        }
+      }
+    ]
+  };
   const playlistGroup: INavLinkGroup = {
     name: "Playlists",
     links: playlistLinks

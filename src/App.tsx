@@ -19,9 +19,24 @@ const getTracks = (state: State, navKey: string): Track[] => {
   return playlist.trackIds.map(trackId => state.tracks[trackId]);
 };
 
+let keyIndex = 555;
+
 export const App: React.FunctionComponent = props => {
   const [myState, setMyState] = useState(defaultState);
   const [navKey, setNavKey] = useState("");
+
+  const createPlaylist = () => {
+    const list: Playlist = {
+      trackIds: [],
+      name: "Untitled",
+      id: `playlist-${keyIndex++}`
+    };
+    const newPlaylists = { ...myState.playlists, [list.id]: list };
+    const newState = { ...myState, playlists: newPlaylists };
+    setMyState(newState);
+    setNavKey(list.id);
+  };
+
   return (
     <Fabric>
       <Router>
@@ -35,6 +50,7 @@ export const App: React.FunctionComponent = props => {
             <Sidebar
               selectedView={navKey}
               navigate={(key: string) => setNavKey(key)}
+              createPlaylist={() => createPlaylist()}
               playlists={myState.playlists}
             />
           </div>
