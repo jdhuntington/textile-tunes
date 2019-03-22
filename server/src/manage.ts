@@ -1,6 +1,8 @@
 import argparse from "argparse";
 import { IndexLibrary } from "./actions/indexLibrary";
 import { Logger } from "./logger";
+import { Context } from "./repositories/context";
+import { MediaParser } from "./mediaParser";
 
 interface IndexArgs {
   location: string;
@@ -20,7 +22,9 @@ parserIndex.addArgument("location", { help: "Source location to scan" });
 
 const args: args = parser.parseArgs();
 const logger = new Logger();
+const context = new Context();
 if (args.subcommandName === "index") {
-  const indexer = new IndexLibrary(logger);
+  const parser = new MediaParser(logger);
+  const indexer = new IndexLibrary(logger, parser, context.fileRepostitory);
   indexer.index((args as IndexArgs).location);
 }
