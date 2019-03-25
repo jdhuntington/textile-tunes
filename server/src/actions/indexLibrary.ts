@@ -1,10 +1,10 @@
-import { Logger } from "../logger";
-import glob from "glob";
-import util from "util";
-import path from "path";
 import fs from "fs";
-import { MediaParser, MediaFile } from "../mediaParser";
+import glob from "glob";
+import path from "path";
+import util from "util";
+import { ConcreteMediaFile, MediaParser } from "../mediaParser";
 import { FileRepository } from "../repositories/fileRepository";
+import { Logger } from "../logger";
 
 const globAsync = util.promisify(glob);
 const existsAsync = util.promisify(fs.exists);
@@ -23,7 +23,7 @@ export class IndexLibrary {
       if (!x) {
         continue;
       }
-      const file = MediaFile.forPath(x);
+      const file = ConcreteMediaFile.forPath(x);
       if (!this.parser.grokable(file)) {
         continue;
       }
