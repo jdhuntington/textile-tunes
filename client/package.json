@@ -27,6 +27,7 @@
   },
   "name": "textile-tunes",
   "private": true,
+  "proxy": "http://127.0.0.1:6644",
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
