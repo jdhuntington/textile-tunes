@@ -1,7 +1,10 @@
 {
-  "name": "textile-tunes",
-  "version": "0.1.0",
-  "private": true,
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "dependencies": {
     "@types/jest": "24.0.9",
     "@types/node": "11.9.5",
@@ -12,26 +15,23 @@
     "react-scripts": "2.1.5",
     "typescript": "3.3.3333"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "devDependencies": {
     "@types/react-router": "^4.4.4",
     "@types/react-router-dom": "^4.3.1",
     "office-ui-fabric-react": "^6.144.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1"
-  }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "name": "textile-tunes",
+  "private": true,
+  "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
+  },
+  "version": "0.1.0"
 }
