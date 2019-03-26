@@ -3,7 +3,7 @@ export interface Track {
   albumName?: string;
   artistName?: string;
   id: string;
-  duration: number;
+  duration?: number;
   url: string;
 }
 
@@ -15,8 +15,3 @@ export interface Playlist {
 
 export type TrackMap = { [id: string]: Track };
 export type PlaylistMap = { [id: string]: Playlist };
-
-export interface State {
-  tracks: TrackMap;
-  playlists: PlaylistMap;
-}

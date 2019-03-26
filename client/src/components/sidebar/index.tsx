@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Nav, INavLink, INavLinkGroup } from "office-ui-fabric-react/lib/Nav";
-import { PlaylistMap } from "../../state/types";
+import { PlaylistMap } from "../../types";
 
 interface SidebarProps {
   playlists: PlaylistMap;
