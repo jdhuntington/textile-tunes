@@ -23,7 +23,7 @@ export class IndexLibrary {
       if (!x) {
         continue;
       }
-      const file = ConcreteMediaFile.forPath(x);
+      const file = await ConcreteMediaFile.forPath(x);
       if (!this.parser.grokable(file)) {
         continue;
       }
@@ -31,6 +31,7 @@ export class IndexLibrary {
         continue;
       }
       this.logger.log(`Adding '${JSON.stringify(file)}`);
+      await file.loadMetadata();
       await this.repo.addFile(file);
     }
   }

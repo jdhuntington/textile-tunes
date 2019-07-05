@@ -1,5 +1,7 @@
 import * as React from "react";
-import { Nav, INavLink, INavLinkGroup } from "office-ui-fabric-react/lib/Nav";
+import { INavLink, INavLinkGroup, Nav } from "office-ui-fabric-react/lib/Nav";
+import { Stack } from "office-ui-fabric-react/lib/Stack";
+import { ThemeProvider } from "@uifabric/foundation";
 import { PlaylistMap } from "../../types";
 
 interface SidebarProps {
@@ -52,5 +54,11 @@ export const Sidebar: React.FunctionComponent<SidebarProps> = props => {
     links: playlistLinks
   };
   const groups: INavLinkGroup[] = [defaultGroup, playlistGroup];
-  return <Nav selectedKey={props.selectedView} groups={groups} />;
+  return (
+    <ThemeProvider scheme="neutral">
+      <Stack>
+        <Nav selectedKey={props.selectedView} groups={groups} />
+      </Stack>
+    </ThemeProvider>
+  );
 };

@@ -2,7 +2,7 @@ import * as Backend from "./repositories/backend";
 import React, { useEffect, useState } from "react";
 import { AudioPlayer } from "./interop/audio-player";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Fabric } from "office-ui-fabric-react/lib/Fabric";
+import { Fabric } from "./components/wrapper/fabric";
 import { Header } from "./components/header";
 import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
 import { Maybe } from "./maybe";

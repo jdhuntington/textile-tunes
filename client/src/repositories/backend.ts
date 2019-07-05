@@ -7,8 +7,9 @@ export async function getAll(): Promise<Track[]> {
     const t: Track = {
       id: d.id,
       url: `/api/files/${d.id}`,
-      artistName: d.path,
-      trackName: d.path
+      artistName: d.artist,
+      trackName: d.title,
+      albumName: d.album
     };
     return t;
   });

@@ -1,3 +1,4 @@
+import * as mm from "music-metadata";
 import { Logger } from "./logger";
 
 const FORMATS = ["mp3"];
@@ -24,21 +25,34 @@ export interface MediaFile {
 export class ConcreteMediaFile implements MediaFile {
   public path: string = "";
   public id: string = "";
+  album: string | undefined;
+  artist: string | undefined;
+  title: string | undefined;
 
   get backed() {
     return true;
   }
 
-  static forPath(path: string): ConcreteMediaFile {
+  static async forPath(path: string): Promise<ConcreteMediaFile> {
     const file = new ConcreteMediaFile();
     file.path = path;
     return file;
+  }
+
+  async loadMetadata(): Promise<void> {
+    const metadata = await mm.parseFile(this.path);
+    this.album = metadata.common.album;
+    this.artist = metadata.common.artist;
+    this.title = metadata.common.title;
   }
 
   static fromRaw(obj: any): ConcreteMediaFile {
     const file = new ConcreteMediaFile();
     file.path = obj.path;
     file.id = obj.id;
+    file.album = obj.album;
+    file.artist = obj.artist;
+    file.title = obj.title;
     return file;
   }
 }

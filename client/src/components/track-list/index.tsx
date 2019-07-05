@@ -17,8 +17,16 @@ interface TrackListProps {
 const columns = [
   {
     key: "trackName",
-    name: "Name",
+    name: "Title",
     fieldName: "trackName",
+    minWidth: 100,
+    maxWidth: 200,
+    isResizable: true
+  },
+  {
+    key: "albumName",
+    name: "Album",
+    fieldName: "albumName",
     minWidth: 100,
     maxWidth: 200,
     isResizable: true
