@@ -12,7 +12,7 @@ export class Maybe<T> {
     return new Maybe<T>(null);
   }
 
-  static fromValue<T>(value: T) {
+  static fromValue<T>(value?: T) {
     return value ? Maybe.some(value) : Maybe.none<T>();
   }
 
@@ -20,7 +20,7 @@ export class Maybe<T> {
     if (this.value === null) {
       return Maybe.none<R>();
     } else {
-      return Maybe.some(f(this.value));
+      return Maybe.fromValue(f(this.value));
     }
   }
 

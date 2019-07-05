@@ -10,6 +10,7 @@ import { Player } from "./components/player";
 import { Playlist, Track } from "./types";
 import { Sidebar } from "./components/sidebar";
 import { TrackList } from "./components/track-list";
+import { PlaybackState } from "./playback-state";
 import "./App.css";
 
 initializeIcons();
@@ -20,7 +21,9 @@ const player = new AudioPlayer();
 export const App: React.FunctionComponent = props => {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [nowPlaying, setNowPlaying] = useState<Maybe<Track>>(Maybe.none());
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [playbackState, setPlaybackState] = useState<PlaybackState>(
+    PlaybackState.empty()
+  );
   const [navKey, setNavKey] = useState("");
 
   useEffect(() => {
@@ -34,10 +37,14 @@ export const App: React.FunctionComponent = props => {
   useEffect(() => {
     player.attach();
     player.registerCallback(audioPlayerState => {
-      console.log({ audioPlayerState });
-      setIsPlaying(audioPlayerState.isPlaying);
+      const state = new PlaybackState(
+        Maybe.fromValue(audioPlayerState.currentPos),
+        Maybe.fromValue(audioPlayerState.duration),
+        true
+      );
+      setPlaybackState(state);
     });
-  }, []);
+  }, [nowPlaying]);
 
   const createPlaylist = () => {
     const list: Playlist = {
@@ -54,6 +61,7 @@ export const App: React.FunctionComponent = props => {
   const playTrack = (trackId: string) => {
     const track = tracks.find(t => t.id === trackId);
     if (track) {
+      setNowPlaying(Maybe.fromValue(track));
       player.load(track.url);
       player.play();
     } else {
@@ -62,7 +70,7 @@ export const App: React.FunctionComponent = props => {
   };
 
   const playPause = () => {
-    if (isPlaying) {
+    if (playbackState.playing) {
       player.pause();
     } else {
       player.play();
@@ -75,7 +83,7 @@ export const App: React.FunctionComponent = props => {
         <div className="main-app">
           <div className="player">
             <Player
-              isPlaying={isPlaying}
+              playbackState={playbackState}
               playPause={playPause}
               track={nowPlaying}
             />
