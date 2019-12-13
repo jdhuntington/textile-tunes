@@ -6,7 +6,7 @@ import { addVariants } from "@uifabric/variants";
 
 const theme = createTheme({
   palette: {
-    themePrimary: "#8100d4"
+    themePrimary: "#f01aaf"
   }
 });
 
