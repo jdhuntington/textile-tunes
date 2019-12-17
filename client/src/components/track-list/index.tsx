@@ -16,14 +16,15 @@ interface TrackListProps {
   onPlay: (trackId: string) => void;
 }
 
-const columns = [
+const columns: IColumn[] = [
   {
     key: "nowPlaying",
     name: " ",
     fieldName: "isPlaying",
     minWidth: 30,
     maxWidth: 50,
-    isResizable: false
+    isResizable: false,
+    onRender: (item: any) => (item.isPlaying ? <Icon iconName="Play" /> : null)
   },
   {
     key: "trackName",
@@ -55,31 +56,22 @@ export const TrackList: React.FunctionComponent<TrackListProps> = props => {
   const selectionRef = React.useRef(new Selection());
   console.log(props.playingTrack);
   // Next steps: Transform tracklist into new setof objects.
+
+  const tracks = props.tracks.map(t => {
+    return {
+      ...t,
+      isPlaying: props.playingTrack
+        .map(playing => playing.id === t.id)
+        .getOrElse(false)
+    };
+  });
+
   return (
     <DetailsList
       onItemInvoked={a => props.onPlay(a.id)}
-      items={props.tracks}
+      items={tracks}
       columns={columns}
-      key={props.playingTrack.map(x => x.id).getOrElse("nothing")}
       selection={selectionRef.current}
-      onRenderItemColumn={(item, index, column) => {
-        if (column && column.fieldName && column.fieldName === "isPlaying") {
-          console.log("in isPlaying check", props.playingTrack);
-          if (
-            props.playingTrack &&
-            (props.playingTrack as any).getOrElse({ id: undefined }).id ===
-              item.id
-          ) {
-            return <Icon iconName="Play" />;
-          } else {
-            return null;
-          }
-        }
-        if (column && column.fieldName) {
-          return <span>{item[column.fieldName]}</span>;
-        }
-        return null;
-      }}
     />
   );
 };
