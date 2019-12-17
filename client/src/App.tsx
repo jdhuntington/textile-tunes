@@ -95,7 +95,7 @@ export const App: React.FunctionComponent = props => {
           <div className="main">
             <TrackList
               onPlay={playTrack}
-              playingTrack={undefined}
+              playingTrack={nowPlaying}
               tracks={tracks}
             />
           </div>
