@@ -16,6 +16,14 @@ interface TrackListProps {
 
 const columns = [
   {
+    key: "nowPlaying",
+    name: " ",
+    fieldName: "isPlaying",
+    minWidth: 30,
+    maxWidth: 50,
+    isResizable: false
+  },
+  {
     key: "trackName",
     name: "Title",
     fieldName: "trackName",
@@ -50,6 +58,9 @@ export const TrackList: React.FunctionComponent<TrackListProps> = props => {
       items={props.tracks}
       columns={columns}
       selection={selectionRef.current}
+      onRenderItemColumn={(item, index, column) => {
+        return <div>I suck</div>;
+      }}
     />
   );
 };
