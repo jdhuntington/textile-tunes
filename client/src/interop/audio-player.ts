@@ -29,7 +29,6 @@ export class AudioPlayer {
 
   play(): void {
     if (this.source && this.element) {
-      console.log("Trying to play");
       this.element.play();
     }
   }
@@ -45,6 +44,8 @@ export class AudioPlayer {
       this.element.pause();
       this.source = source;
       this.element.setAttribute("src", source);
+    } else {
+      throw new Error("Must call attach first()");
     }
   }
 
@@ -55,7 +56,6 @@ export class AudioPlayer {
   }
 
   private handleElementEvent = (a: any) => {
-    console.log({ a });
     if (this.element) {
       this.triggerObservers({
         isPlaying: !this.element.paused,

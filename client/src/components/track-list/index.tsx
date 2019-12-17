@@ -42,12 +42,14 @@ const columns = [
 ];
 
 export const TrackList: React.FunctionComponent<TrackListProps> = props => {
+  const selectionRef = React.useRef(new Selection());
+
   return (
     <DetailsList
-      selectionMode={SelectionMode.none}
       onItemInvoked={a => props.onPlay(a.id)}
       items={props.tracks}
       columns={columns}
+      selection={selectionRef.current}
     />
   );
 };

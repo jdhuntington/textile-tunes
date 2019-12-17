@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Track } from "../types";
+import { Track, Playlist } from "../types";
 
 export async function getAll(): Promise<Track[]> {
   const result = await axios.get("/api/everything");
@@ -13,4 +13,9 @@ export async function getAll(): Promise<Track[]> {
     };
     return t;
   });
+}
+
+export async function createPlaylist(): Promise<Playlist> {
+  const result = await axios.post("/api/playlist");
+  return result.data as Playlist;
 }

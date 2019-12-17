@@ -18,3 +18,9 @@ routes.get("/files/:fileId", async (req: Request, res: Response) => {
     res.status(404).json({ error: "File not found." });
   }
 });
+
+routes.post('/playlist', async (req: Request, res: Response) => {
+  const playlist = context.fileRepostitory.addPlaylist();
+  await context.fileRepostitory.persist();
+  res.json(playlist);
+}

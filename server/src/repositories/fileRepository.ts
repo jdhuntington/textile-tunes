@@ -1,7 +1,12 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { MediaFile, MissingMediaFile, ConcreteMediaFile } from "../mediaParser";
+import {
+  MediaFile,
+  MissingMediaFile,
+  ConcreteMediaFile,
+  Playlist
+} from "../mediaParser";
 import { promisify } from "util";
 import crypto from "crypto";
 
@@ -22,6 +27,7 @@ export interface FileRepository {
   addFile(file: MediaFile): Promise<void>;
   hasFile(file: MediaFile): Promise<boolean>;
   allFiles(): Promise<MediaFile[]>;
+  addPlaylist(): Promise<Playlist>;
 }
 
 export class InMemoryFileRepository implements FileRepository {
@@ -55,6 +61,7 @@ const defaultJsonPath = (): string => {
 export class JsonFileRepository implements FileRepository {
   private loaded = false;
   private files: { [path: string]: MediaFile } = {};
+  private playlists: Playlist[] = [];
 
   constructor(public path: string = defaultJsonPath()) {}
 
@@ -89,6 +96,13 @@ export class JsonFileRepository implements FileRepository {
     return this.files[fileId] || MissingMediaFile.instance();
   }
 
+  async addPlaylist(): Promise<Playlist> {
+    await this.load();
+    const playlist = new Playlist();
+    this.playlists.push(playlist);
+    return playlist;
+  }
+
   async load(): Promise<void> {
     if (this.loaded) {
       return;
@@ -100,6 +114,11 @@ export class JsonFileRepository implements FileRepository {
       for (let key in jsonContents) {
         const val = ConcreteMediaFile.fromRaw(jsonContents[key]);
         this.files[key] = val;
+      }
+      if (jsonContents.playlists) {
+        this.playlists = jsonContents.playlists.map((p: any) =>
+          Playlist.fromRaw(p)
+        );
       }
     }
     this.loaded = true;

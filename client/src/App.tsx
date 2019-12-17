@@ -25,6 +25,7 @@ export const App: React.FunctionComponent = props => {
     PlaybackState.empty()
   );
   const [navKey, setNavKey] = useState("");
+  const [isPlaylistCreating, setIsPlaylistCreating] = React.useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -46,17 +47,10 @@ export const App: React.FunctionComponent = props => {
     });
   }, [nowPlaying]);
 
-  const createPlaylist = () => {
-    const list: Playlist = {
-      trackIds: [],
-      name: "Untitled",
-      id: `playlist-${keyIndex++}`
-    };
-    /* const newPlaylists = { ...myState.playlists, [list.id]: list };
-    const newState = { ...myState, playlists: newPlaylists };
-    setMyState(newState); */
-    setNavKey(list.id);
-  };
+  const createPlaylist = React.useCallback(async () => {
+    const playlist = await Backend.createPlaylist();
+    setNavKey(playlist.id);
+  }, [setNavKey]);
 
   const playTrack = (trackId: string) => {
     const track = tracks.find(t => t.id === trackId);
@@ -94,7 +88,7 @@ export const App: React.FunctionComponent = props => {
             <Sidebar
               selectedView={navKey}
               navigate={(key: string) => setNavKey(key)}
-              createPlaylist={() => createPlaylist()}
+              createPlaylist={createPlaylist}
               playlists={{}}
             />
           </div>
